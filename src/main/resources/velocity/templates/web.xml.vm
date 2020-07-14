@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="AppServer" version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <!-- Spring 配置文件，启动数据库连接 -->
+  <context-param>
+    <description>Spring 配置文件，启动数据库连接</description>
+    <param-name>contextConfigLocation</param-name>
+    <!-- 单数据源 -->
+    <param-value>classpath*:spring-database.xml</param-value>
+    <!-- 双数据源，实现读写分离 -->
+    <!-- <param-value>classpath*:spring-database-rw.xml</param-value> -->
+    <!-- 多数据源动态切换 -->
+    <!-- <param-value>classpath*:spring-database-dynamic.xml</param-value> -->
+    <!-- 单数据源，支持 Redis -->
+    <!-- <param-value>classpath*:spring-database-redis.xml</param-value> -->
+    <!-- 单数据源，实现读写分离，支持 Redis -->
+    <!-- <param-value>classpath*:spring-database-rw-redis.xml</param-value> -->
+    <!-- 多数据源动态切换，支持 Redis -->
+    <!-- <param-value>classpath*:spring-database-dynamic-redis.xml</param-value> -->
+  </context-param>
+
+  <!-- Spring 核心 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!-- 可以使用 RequestContextHolder.currentRequestAttributes() 获取到请求的 attr -->
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>springMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath*:spring-mvc*.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springMVC</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!-- 应用初始化参数 -->
+  <servlet>
+    <servlet-name>configServlet</servlet-name>
+    <servlet-class>pers.chanus.yuntao.springmvc.ConfigServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+    <async-supported>true</async-supported>
+  </servlet>
+
+  <!-- 设置 servlet 编码 -->
+  <filter>
+    <filter-name>Set Character Encoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Set Character Encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Druid，监控数据库，以及WEB访问连接信息 -->
+  <filter>
+    <filter-name>DruidWebStatFilter</filter-name>
+    <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+    <init-param>
+      <param-name>exclusions</param-name>
+      <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,*.jsp,/druid/*,/download/*</param-value>
+    </init-param>
+    <!-- 缺省 sessionStatMaxCount 是1000个 -->
+    <init-param>
+      <param-name>sessionStatMaxCount</param-name>
+      <param-value>2000</param-value>
+    </init-param>
+    <!-- 启动或关闭 session 统计功能 -->
+    <init-param>
+      <param-name>sessionStatEnable</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <!-- 使得 druid 能够知道当前的 session 的用户是谁，用户信息保存在 session 中的 sessionName。
+      如果你 session 中保存的是非 String 类型的对象，需要重载 toString 方法 -->
+    <init-param>
+      <param-name>principalSessionName</param-name>
+      <param-value>loginname</param-value>
+    </init-param>
+    <!-- 如果你的用户信息保存在 cookie 中，配置 principalCookieName 使得 druid 知道当前的用户是谁。
+      配置为 user 信息保存在 cookie 中的 cookieName -->
+    <!-- <init-param>
+      <param-name>principalCookieName</param-name>
+      <param-value>loginname</param-value>
+    </init-param> -->
+    <!-- 配置 profileEnable 能够监控单个 url 调用的 sql 列表 -->
+    <init-param>
+      <param-name>profileEnable</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>DruidWebStatFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- 配置 Druid 监控信息显示页面，内置监控页面的首页是 /druid/index.html -->
+  <servlet>
+    <servlet-name>DruidStatView</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    <init-param>
+      <!-- 允许清空统计数据 -->
+      <param-name>resetEnable</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <!-- 用户名 -->
+    <init-param>
+      <param-name>loginUsername</param-name>
+      <param-value>druid</param-value>
+    </init-param>
+    <!-- 密码 -->
+    <init-param>
+      <param-name>loginPassword</param-name>
+      <param-value>druid</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DruidStatView</servlet-name>
+    <url-pattern>/druid/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- 欢迎页面 -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- 错误页面 -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404.jsp</location>
+  </error-page>
+
+  <!-- session 超时时间 -->
+  <session-config>
+    <session-timeout>60</session-timeout>
+  </session-config>
+
+</web-app>

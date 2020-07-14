@@ -1,0 +1,23 @@
+jdbc.driverClassName = ${projectVO.jdbc.driverClassName}
+
+jdbc.url = jdbc:mysql://${projectVO.jdbc.host}:3306/${projectVO.jdbc.schema}?useUnicode\=true&characterEncoding\=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+
+jdbc.username = ${projectVO.jdbc.username}
+
+jdbc.password = ${projectVO.jdbc.password}
+
+jdbc2.url = jdbc:mysql://${projectVO.jdbc.host}:3306/${projectVO.jdbc.schema}?useUnicode\=true&characterEncoding\=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+
+jdbc2.username = ${projectVO.jdbc.username}
+
+jdbc2.password = ${projectVO.jdbc.password}
+
+jdbc.validationQuery = SELECT 'x'
+
+dataSource.initialSize = 5
+
+dataSource.maxActive = 20
+
+dataSource.minIdle = 5
+
+dataSource.maxWait = 60000

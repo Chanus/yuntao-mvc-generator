@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>${projectVO.groupId}</groupId>
+    <artifactId>${projectVO.parentArtifactId}</artifactId>
+    <version>${projectVO.version}</version>
+  </parent>
+
+  <artifactId>${projectVO.webArtifactId}</artifactId>
+  <packaging>war</packaging>
+  <name>${project.artifactId}</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>${projectVO.groupId}</groupId>
+      <artifactId>${projectVO.apiArtifactId}</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>yuntao</groupId>
+      <artifactId>yuntao-manager-web</artifactId>
+      <version>${yuntao.version}</version>
+      <type>jar</type>
+      <classifier>classes</classifier>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>yuntao</groupId>
+      <artifactId>yuntao-manager-web</artifactId>
+      <version>${yuntao.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${projectVO.webArtifactId}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <!-- <version>3.1.0</version> -->
+        <configuration>
+          <webResources>
+            <resource>
+              <directory>src/main/webapp</directory>
+              <excludes>
+                <exclude>*/classes/</exclude>
+              </excludes>
+            </resource>
+          </webResources>
+          <archiveClasses>true</archiveClasses>
+          <archive>
+            <index>true</index>
+          </archive>
+          <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+          <overlays>
+            <!-- 合并 yuntao-manager-web -->
+            <overlay>
+              <groupId>yuntao</groupId>
+              <artifactId>yuntao-manager-web</artifactId>
+              <!-- 过滤 yuntao-manager-web 中相同的配置文件 -->
+              <excludes>
+                <exclude>**/logback.xml</exclude>
+                <exclude>**/jdbc.properties</exclude>
+                <exclude>**/config.properties</exclude>
+                <exclude>**/redis.properties</exclude>
+                <exclude>WEB-INF/classes/logback.properties</exclude>
+                <exclude>WEB-INF/classes/jdbc.properties</exclude>
+                <exclude>WEB-INF/classes/config.properties</exclude>
+                <exclude>WEB-INF/classes/redis.properties</exclude>
+              </excludes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

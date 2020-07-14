@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- logback.xml 配置 -->
+<!-- scan：当此属性设置为 true 时，配置文件如果发生改变，将会被重新加载，默认值为 true。 -->
+<!-- scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当 scan 为 true 时，此属性生效。默认的时间间隔为1分钟。 -->
+<!-- debug：当此属性设置为 true 时，将打印出 logback 内部日志信息，实时查看 logback 运行状态。默认值为 false。 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+  <!-- 设置上下文名称 -->
+  <contextName>${project.artifactId}</contextName>
+
+  <!-- 负责写日志，控制台日志 -->
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%5level] %logger{36} %msg%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+  </appender>
+
+  <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.path}/log.log</file>
+    <!-- ThresholdFilter：临界值过滤器，过滤掉 TRACE 和 DEBUG 级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <encoder>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%5level] %logger{36} %msg%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- 每天生成一个日志文件，保存30天的日志文件 - 如果隔一段时间没有输出日志，前面过期的日志不会被删除，只有再重新打印日志的时候，会触发删除过期日志的操作。 -->
+      <!-- fileNamePattern 文件格式不正确则无法产生日志文件 -->
+      <fileNamePattern>${log.path}/log_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>128MB</maxFileSize>
+      </TimeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+  </appender>
+
+  <!--
+  - 根 logger
+  - level：设置打印级别，大小写无关，TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，不能设置为 INHERITED 或者同义词 NULL。默认是 DEBUG。
+  - appender-ref：可以包含零个或多个 <appender-ref> 元素，标识这个 appender 将会添加到这个 logger。
+  -->
+  <root level="INFO">
+    <appender-ref ref="console" />
+    <appender-ref ref="file" />
+  </root>
+  <!-- 自定义 logger -->
+  <logger name="pers.chanus.yuntao.springmvc.controller.BaseController" level="INFO" additivity="false">
+    <appender-ref ref="console" />
+    <appender-ref ref="file" />
+  </logger>
+</configuration>
