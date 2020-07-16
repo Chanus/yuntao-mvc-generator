@@ -1,0 +1,82 @@
+@charset "utf-8";
+
+html {
+    background-color: #fff;
+}
+
+/** 覆盖layui-disabled样式 */
+.layui-disabled, .layui-disabled:hover {
+    color: #666 !important;
+}
+
+/** 间距设置 */
+.pd-5 {
+    padding: 5px;
+}
+
+.pd-10 {
+    padding: 10px;
+}
+
+.pd-20 {
+    padding: 20px;
+}
+
+.mg-l-20 {
+    margin-left: 20px;
+}
+
+.mg-r-20 {
+    margin-right: 20px;
+}
+
+/** 常用颜色 */
+.red {
+    color: #FF5722;
+    padding-left: 2px;
+}
+
+.color-red {
+    color: #FF5722;
+}
+
+.color-lightblue {
+    color: #4F94CD;
+}
+
+.color-lightgreen {
+    color: #5FB878;
+}
+
+/** 字体加粗 */
+.b {
+    font-weight: bold;
+}
+
+/** span高度自适应 */
+span[class*="layui-badge"] {
+    height: auto;
+}
+
+/** 背景颜色 */
+.layui-bg-custom-lightgreen {
+    background-color: #5FB878 !important;
+}
+
+/** 对齐方式 */
+.text-l, .text-l th, .text-l td {
+    text-align: left;
+}
+
+.text-c, .text-c th, .text-c td {
+    text-align: center;
+}
+
+.text-r, .text-r th, .text-r td {
+    text-align: right;
+}
+
+/*表格中操作按钮取消左间距*/
+td .layui-btn + .layui-btn {
+    margin-left: 0;
+}

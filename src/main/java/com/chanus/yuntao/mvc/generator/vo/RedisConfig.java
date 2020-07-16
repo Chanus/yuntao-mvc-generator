@@ -28,15 +28,15 @@ public class RedisConfig implements Serializable {
     private static final long serialVersionUID = -1129898629719508769L;
 
     /**
-     * redis 服务器地址
+     * Redis 服务器地址
      */
     private String host;
     /**
-     * redis 服务端口号
+     * Redis 服务端口号
      */
     private String port;
     /**
-     * redis 连接密码
+     * Redis 连接密码
      */
     private String password;
 

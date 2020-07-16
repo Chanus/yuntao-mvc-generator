@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.chanus</groupId>
   <artifactId>yuntao-mvc-generator</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>yuntao-mvc-generator</name>
   <description>云道后台管理系统（Spring MVC 版）自动构建</description>
 
@@ -43,6 +43,16 @@
           <artifactId>junit-vintage-engine</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
     </dependency>
 
     <!-- 集成velocity，自动生成代码 -->
