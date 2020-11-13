@@ -17,6 +17,7 @@ package com.chanus.yuntao.mvc.generator.service.impl;
 
 import com.chanus.yuntao.mvc.generator.service.GenerateService;
 import com.chanus.yuntao.mvc.generator.vo.*;
+import com.chanus.yuntao.utils.core.CharsetUtils;
 import com.chanus.yuntao.utils.core.IOUtils;
 import com.chanus.yuntao.utils.core.StreamUtils;
 import com.chanus.yuntao.utils.core.encrypt.AESUtils;
@@ -85,7 +86,7 @@ public class GenerateServiceImpl implements GenerateService {
             Template template = Velocity.getTemplate("velocity/templates/simple/pom.xml.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(simpleProjectVO.getName() + "/pom.xml"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
             // 项目 java 类目录
             String javaPath = simpleProjectVO.getName() + "/src/main/java/";
             String packagePath = javaPath + simpleProjectVO.getPackagePath() + File.separator;
@@ -137,13 +138,13 @@ public class GenerateServiceImpl implements GenerateService {
             Template template = Velocity.getTemplate("velocity/templates/multi/pom-parent.xml.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(multiProjectVO.getName() + "/pom.xml"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
             // 后台管理项目 pom.xml
             stringWriter = new StringWriter();
             template = Velocity.getTemplate("velocity/templates/multi/pom-manager.xml.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(multiProjectVO.getName() + File.separator + multiProjectVO.getManagerArtifactId() + "/pom.xml"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
             // 项目 java 类目录
             String javaPath = multiProjectVO.getName() + File.separator + multiProjectVO.getManagerArtifactId() + "/src/main/java/";
             String packagePath = javaPath + multiProjectVO.getPackagePath() + File.separator;
@@ -195,13 +196,13 @@ public class GenerateServiceImpl implements GenerateService {
             Template template = Velocity.getTemplate("velocity/templates/multi-splitting/pom-parent.xml.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(multiSplittingProjectVO.getName() + "/pom.xml"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
             // 后台管理 api 模块 pom.xml
             stringWriter = new StringWriter();
             template = Velocity.getTemplate("velocity/templates/multi-splitting/pom-api.xml.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(multiSplittingProjectVO.getName() + File.separator + multiSplittingProjectVO.getApiArtifactId() + "/pom.xml"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
             // 后台管理 api 模块 java 类目录
             String apiJavaPath = multiSplittingProjectVO.getName() + File.separator + multiSplittingProjectVO.getApiArtifactId() + "/src/main/java/";
             String apiPackagePath = apiJavaPath + multiSplittingProjectVO.getApiPackagePath() + File.separator;
@@ -219,7 +220,7 @@ public class GenerateServiceImpl implements GenerateService {
             template = Velocity.getTemplate("velocity/templates/multi-splitting/pom-web.xml.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(multiSplittingProjectVO.getName() + File.separator + multiSplittingProjectVO.getWebArtifactId() + "/pom.xml"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
             // 后台管理 web 模块 java 类目录
             String webJavaPath = multiSplittingProjectVO.getName() + File.separator + multiSplittingProjectVO.getWebArtifactId() + "/src/main/java/";
             String webPackagePath = webJavaPath + multiSplittingProjectVO.getWebPackagePath() + File.separator;
@@ -258,12 +259,12 @@ public class GenerateServiceImpl implements GenerateService {
         Template template = Velocity.getTemplate("velocity/templates/spring-mvc-context.xml.vm", "UTF-8");
         template.merge(context, stringWriter);
         zip.putNextEntry(new ZipEntry(webResourcesPath + "spring-mvc-context.xml"));
-        StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+        StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
         stringWriter = new StringWriter();
         template = Velocity.getTemplate("velocity/templates/logback.xml.vm", "UTF-8");
         template.merge(context, stringWriter);
         zip.putNextEntry(new ZipEntry(webResourcesPath + "logback.xml"));
-        StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+        StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
     }
 
     /**
@@ -288,20 +289,20 @@ public class GenerateServiceImpl implements GenerateService {
         Template template = Velocity.getTemplate("velocity/templates/config.properties.vm", "UTF-8");
         template.merge(context, stringWriter);
         zip.putNextEntry(new ZipEntry(webinfPath + "classes/config.properties"));
-        StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+        StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
         // jdbc.properties
         stringWriter = new StringWriter();
         template = Velocity.getTemplate("velocity/templates/jdbc.properties.vm", "UTF-8");
         template.merge(context, stringWriter);
         zip.putNextEntry(new ZipEntry(webinfPath + "classes/jdbc.properties"));
-        StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+        StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
         // redis.properties
         if (enableRedis) {
             stringWriter = new StringWriter();
             template = Velocity.getTemplate("velocity/templates/redis.properties.vm", "UTF-8");
             template.merge(context, stringWriter);
             zip.putNextEntry(new ZipEntry(webinfPath + "classes/redis.properties"));
-            StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+            StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
         }
     }
 
@@ -318,7 +319,7 @@ public class GenerateServiceImpl implements GenerateService {
         Template template = Velocity.getTemplate("velocity/templates/web.xml.vm", "UTF-8");
         template.merge(context, stringWriter);
         zip.putNextEntry(new ZipEntry(webinfPath + "web.xml"));
-        StreamUtils.write(stringWriter.toString(), zip, "UTF-8");
+        StreamUtils.write(zip, CharsetUtils.CHARSET_UTF_8, stringWriter.toString());
     }
 
     /**

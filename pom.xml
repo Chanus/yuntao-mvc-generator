@@ -19,7 +19,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
     <velocity.version>1.7</velocity.version>
-    <yuntao.utils.version>1.0.0</yuntao.utils.version>
+    <yuntao.utils.version>1.4.3</yuntao.utils.version>
   </properties>
 
   <dependencies>
@@ -63,7 +63,7 @@
     </dependency>
 
     <dependency>
-      <groupId>com.chanus</groupId>
+      <groupId>com.chanus.utils</groupId>
       <artifactId>yuntao-utils-core</artifactId>
       <version>${yuntao.utils.version}</version>
     </dependency>
