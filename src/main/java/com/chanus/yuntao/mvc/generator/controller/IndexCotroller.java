@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexCotroller {
     @GetMapping("index")
-    public String index(HttpServletRequest request, Model model) {
-        model.addAttribute("yuntaoVersion", "0.2.3");
+    public String index(Model model) {
+        model.addAttribute("yuntaoVersion", "0.5.1");
         return "index";
     }
 }
