@@ -47,17 +47,7 @@ public class GeneratorController {
     public void generateSimple(HttpServletResponse response, SimpleProjectVO simpleProjectVO) {
         simpleProjectVO.setProjectType(ProjectTypeEnum.SIMPLE);
 
-        byte[] data = generateService.generate(simpleProjectVO);
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"yuntao-manager-project.zip\"");
-        response.addHeader("Content-Length", String.valueOf(data.length));
-        response.setContentType("application/octet-stream; charset=UTF-8");
-
-        try {
-            StreamUtils.write(data, response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        download(response, simpleProjectVO);
     }
 
     /**
@@ -70,17 +60,7 @@ public class GeneratorController {
     public void generateMulti(HttpServletResponse response, MultiProjectVO multiProjectVO) {
         multiProjectVO.setProjectType(ProjectTypeEnum.MULTI);
 
-        byte[] data = generateService.generate(multiProjectVO);
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"yuntao-manager-project.zip\"");
-        response.addHeader("Content-Length", String.valueOf(data.length));
-        response.setContentType("application/octet-stream; charset=UTF-8");
-
-        try {
-            StreamUtils.write(data, response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        download(response, multiProjectVO);
     }
 
     /**
@@ -93,7 +73,11 @@ public class GeneratorController {
     public void generateMultiSplitting(HttpServletResponse response, MultiSplittingProjectVO multiSplittingProjectVO) {
         multiSplittingProjectVO.setProjectType(ProjectTypeEnum.MULTI_SPLITTING);
 
-        byte[] data = generateService.generate(multiSplittingProjectVO);
+        download(response, multiSplittingProjectVO);
+    }
+
+    private void download(HttpServletResponse response, ProjectVO projectVO) {
+        byte[] data = generateService.generate(projectVO);
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"yuntao-manager-project.zip\"");
         response.addHeader("Content-Length", String.valueOf(data.length));
